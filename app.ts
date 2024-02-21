@@ -30,10 +30,16 @@ console.log(
 const app = express();
 const PORT = process.env.PORT || 3000;
 /* 
-true means REST Service is onlne 
-false Means REST Service is offline
+true means REST Service is online 
+false means REST Service is offline
 */
 let isOnline = false;
+
+// Add a route handler to check the API status
+app.get("/status", (req, res) => {
+  const status = isOnline ? "online" : "offline";
+  res.send(`API is ${status}`);
+});
 
 // Connect to MongoDB
 const options: ConnectOptions = {
@@ -93,7 +99,7 @@ async function handleOfflineRequest(data: any) {
         const mergedData = [...existingData, ...newDataFiltered];
 
         // Serialize the data to JSON format
-        const jsonData = JSON.stringify(endpointData, null, 2);
+        const jsonData = JSON.stringify(mergedData, null, 2);
 
         // Write the data to the file
         fs.writeFileSync(fileName, jsonData);
@@ -172,28 +178,6 @@ app.post("/manufacturers", async (req, res) => {
 // Handle GET request to retrieve all manufacturers
 app.get("/manufacturers", async (req, res) => {
   try {
-    // if (!isOnline) {
-    //   log("Get manufacturers is offline");
-    //   const manufacturers = await ManufacturerModel.find();
-
-    //   const carModels = await CarModelModel.find();
-
-    //   const manufacturersWithModelCount = manufacturers.map((manufacturer) => {
-    //     const modelCount = carModels.filter(
-    //       (model) =>
-    //         model.manufacturer.toString() === manufacturer._id.toString()
-    //     ).length;
-
-    //     return {
-    //       ...manufacturer.toJSON(),
-    //       modelCount,
-    //     };
-    //   });
-
-    //   manufacturersWithModelCount.forEach((manufacturer) => {
-    //     cacheCommand(`listManufacturers('${manufacturer._id}')`);
-    //   });
-    // }
     // Fetch all manufacturers from the database
     const manufacturers = await ManufacturerModel.find();
 
