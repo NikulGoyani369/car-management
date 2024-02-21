@@ -1,11 +1,11 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-export interface Model extends Document {
+export interface CarModel extends Document {
   name: string;
   manufacturer: mongoose.Types.ObjectId;
 }
 
-const ModelSchema: Schema = new Schema({
+const CarModelSchema: Schema = new Schema({
   name: { type: String, required: true },
   manufacturer: {
     type: Schema.Types.ObjectId,
@@ -14,4 +14,7 @@ const ModelSchema: Schema = new Schema({
   },
 });
 
-export default mongoose.model<Model>("Model", ModelSchema);
+export const CarModelModel = mongoose.model<CarModel>(
+  "CarModel",
+  CarModelSchema
+);
