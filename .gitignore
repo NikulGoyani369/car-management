@@ -3,3 +3,5 @@
 /offline_data
 
 *.js
+
+.env
