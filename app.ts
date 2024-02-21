@@ -14,7 +14,7 @@ import * as fs from "node:fs";
 import { Manufacturer } from "./src/models/Manufacturers";
 import { CarModel } from "./src/models/Models";
 import { log } from "node:console";
-import { showHelp } from "./showHelp";
+import { showHelp } from "./src/showHelp";
 import { cacheCommand, executeCachedCommands } from "./src/api/commandCache";
 
 // Start the application
