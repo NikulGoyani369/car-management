@@ -1,7 +1,7 @@
 import express = require("express");
 import { connect, ConnectOptions } from "mongoose";
-import { ManufacturerModel } from "./models/Manufacturers";
-import { CarModelModel } from "./models/Models";
+import { ManufacturerModel } from "./src/models/Manufacturers";
+import { CarModelModel } from "./src/models/Models";
 import {
   createManufacturer,
   listManufacturers,
@@ -9,13 +9,13 @@ import {
   deleteManufacturerById,
   viewModelsByManufacturerId,
   addModelByManufacturerId,
-} from "./commands";
+} from "./src/api/commands";
 import * as fs from "node:fs";
-import { Manufacturer } from "./models/Manufacturers";
-import { CarModel } from "./models/Models";
+import { Manufacturer } from "./src/models/Manufacturers";
+import { CarModel } from "./src/models/Models";
 import { log } from "node:console";
 import { showHelp } from "./showHelp";
-import { cacheCommand, executeCachedCommands } from "./commandCache";
+import { cacheCommand, executeCachedCommands } from "./src/api/commandCache";
 
 // Start the application
 console.log(
