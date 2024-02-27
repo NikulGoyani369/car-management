@@ -1,6 +1,6 @@
 # Car-Management Services Project with CLI integration
 
-## Getting started
+## Getting started with Client and Server
 
 <!---  
 Specifications
