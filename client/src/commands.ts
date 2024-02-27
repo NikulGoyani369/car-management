@@ -1,27 +1,27 @@
 import axios from "axios";
-import { log, table } from "node:console";
+import { table } from 'node:console';
 import {
   cacheCommand,
   commandCache,
   executeCachedCommands,
-} from "../../server/commandCache";
+} from '../../server/commandCache';
 import {
   compareAndMerge,
   fetchServerData,
   handleOfflineRequest,
-} from "./offlineRequest";
-import { ManufacturerModel } from "../../server/src/models/Manufacturers";
-import { CarModelModel } from "../../server/src/models/Models";
-import mongoose from "mongoose";
+} from './offlineRequest';
+import { ManufacturerModel } from '../../server/src/models/Manufacturers';
+import { CarModelModel } from '../../server/src/models/Models';
+import mongoose from 'mongoose';
 
 // Function to check if the server is running
 export const checkServerStatus = async () => {
   try {
-    const response = await axios.get("http://localhost:3000/health");
-    console.log(" \n Server response:", response.data);
+    const response = await axios.get('http://localhost:3000/health');
+    console.log(' \n Server response:', response.data);
     return true;
   } catch (error: any) {
-    console.error(" \n Error checking server status:", error.message);
+    console.error(' \n Error checking server status:', error.message);
     return false;
   }
 };
@@ -33,7 +33,7 @@ export const createManufacturer = async (name: string) => {
     const serverStatus = await checkServerStatus();
 
     if (!serverStatus) {
-      log("You are currently offline. Saving data locally...");
+      console.log('You are currently offline. Saving data locally...');
 
       // If the server is offline, cache the command and save data locally
       cacheCommand(createManufacturer, name);
@@ -59,36 +59,39 @@ export const createManufacturer = async (name: string) => {
           _id: new mongoose.Types.ObjectId().toHexString(),
           name,
           __v: 0,
+          modelCount: 0,
         },
       ];
 
-      table(mergedData);
-
+      console.table(mergedData);
       // Merge new filtered data with existing data
       // const newDataFiltered = await compareAndMerge(serverData, mergedData);
 
       // Serialize the data to JSON format
-      // log("Data saved locally in file: manufacturers.json", newDataFiltered);
+      // console.log("Data saved locally in file: manufacturers.json", newDataFiltered);
 
       // If the server is online, create the manufacturer via API
-      log("Manufacturer created successfully: ", `createManufacturer: ${name}`);
+      console.log(
+        'Manufacturer created successfully: ',
+        `createManufacturer: ${name}`
+      );
 
-      await axios.post("http://localhost:3000/manufacturers", {
+      await axios.post('http://localhost:3000/manufacturers', {
         name,
       });
 
       // Execute cached commands if there are any
       if (commandCache.length > 0) {
-        log("Server is online. Executing cached commands...");
+        console.log('Server is online. Executing cached commands...');
         executeCachedCommands();
-        log(" \n Cached commands executed successfully.");
+        console.log(' \n Cached commands executed successfully.');
       }
     }
   } catch (error) {
     return {
       status: 400,
-      data: "Error creating manufacturer for post",
-      statusText: "Bad Request",
+      data: 'Error creating manufacturer for post',
+      statusText: 'Bad Request',
     };
   }
 };
@@ -100,7 +103,7 @@ export const listManufacturers = async () => {
     const serverStatus = await checkServerStatus();
 
     if (!serverStatus) {
-      log("You are currently offline. Saving data locally...");
+      console.log('You are currently offline. Saving data locally...');
 
       // If the server is offline, cache the command and save data locally
       // cacheCommand(`listManufacturers()`);
@@ -109,9 +112,9 @@ export const listManufacturers = async () => {
       handleOfflineRequest({ listManufacturers: [] });
     } else {
       // If the server is online, create the manufacturer via API
-      log("You are currently online. Processing cached commands...");
+      console.log('You are currently online. Processing cached commands...');
 
-      const response = await axios.get("http://localhost:3000/manufacturers");
+      const response = await axios.get('http://localhost:3000/manufacturers');
 
       table(response.data);
 
@@ -123,8 +126,8 @@ export const listManufacturers = async () => {
   } catch (error) {
     return {
       status: 400,
-      data: "No manufacturers found",
-      statusText: "Bad Request",
+      data: 'No manufacturers found',
+      statusText: 'Bad Request',
     };
   }
 };
@@ -136,7 +139,7 @@ export const deleteManufacturerById = async (manufacturerId: string) => {
     const serverStatus = await checkServerStatus();
 
     if (!serverStatus) {
-      log("You are currently offline. Saving data locally...");
+      console.log('You are currently offline. Saving data locally...');
 
       // If the server is offline, cache the command and save data locally
       cacheCommand(deleteManufacturerById, manufacturerId);
@@ -147,7 +150,7 @@ export const deleteManufacturerById = async (manufacturerId: string) => {
       });
     } else {
       // If the server is online delete the manufacturer by ID via API
-      log("Manufacturer deleted successfully.");
+      console.log('Manufacturer deleted successfully.');
 
       const response = await axios.delete(
         `http://localhost:3000/manufacturers/${manufacturerId}`
@@ -173,8 +176,8 @@ export const deleteManufacturerById = async (manufacturerId: string) => {
   } catch (error) {
     return {
       status: 400,
-      data: "Error deleting manufacturer",
-      statusText: "Bad Request",
+      data: 'Error deleting manufacturer',
+      statusText: 'Bad Request',
     };
   }
 };
@@ -185,7 +188,7 @@ export const viewModelsByManufacturerId = async (vieModelByID: string) => {
     const serverStatus = await checkServerStatus();
 
     if (!serverStatus) {
-      log("You are currently offline. Saving data locally...");
+      console.log('You are currently offline. Saving data locally...');
 
       cacheCommand(viewModelsByManufacturerId, vieModelByID);
 
@@ -193,9 +196,9 @@ export const viewModelsByManufacturerId = async (vieModelByID: string) => {
         viewModelsByManufacturerId: [{ _id: vieModelByID }],
       });
     } else {
-      log("You are currently online. Processing cached commands...");
+      console.log('You are currently online. Processing cached commands...');
 
-      log("List of models by manufacturer ID:");
+      console.log('List of models by manufacturer ID:');
 
       const response = await axios.get(
         `http://localhost:3000/models?manufacturer=${vieModelByID}`
@@ -213,8 +216,8 @@ export const viewModelsByManufacturerId = async (vieModelByID: string) => {
   } catch (error) {
     return {
       status: 400,
-      data: "Error viewing models by manufacturer ID",
-      statusText: "Bad Request",
+      data: 'Error viewing models by manufacturer ID',
+      statusText: 'Bad Request',
     };
   }
 };
@@ -228,7 +231,7 @@ export const addModelByManufacturerId = async (
     const serverStatus = await checkServerStatus();
 
     if (!serverStatus) {
-      log("You are currently offline. Saving data locally...");
+      console.log('You are currently offline. Saving data locally...');
 
       cacheCommand(addModelByManufacturerId, addModelByID, modelName);
 
@@ -243,7 +246,7 @@ export const addModelByManufacturerId = async (
         ],
       });
     } else {
-      log("Model added successfully.");
+      console.log('Model added successfully.');
 
       const response = await axios.post(`http://localhost:3000/models`, {
         name: modelName,
@@ -258,8 +261,8 @@ export const addModelByManufacturerId = async (
   } catch (error) {
     return {
       status: 400,
-      data: "Error adding models by manufacturer ID",
-      statusText: "Bad Request",
+      data: 'Error adding models by manufacturer ID',
+      statusText: 'Bad Request',
     };
   }
 };

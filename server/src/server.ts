@@ -18,12 +18,12 @@ const options: ConnectOptions = {
 };
 
 // Connect to the MongoDB database
-connect("mongodb://localhost:27018/car_management", options)
+connect('mongodb://localhost:27017/car_management', options)
   .then(() => {
     // console.log("Connected to MongoDB");
   })
   .catch((err) => {
-    console.error("Error connecting to MongoDB", err);
+    console.error('Error connecting to MongoDB', err);
   });
 
 // Define the JSON parser middleware

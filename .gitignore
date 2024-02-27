@@ -9,3 +9,5 @@
 .env
 
 /server/src/offline_data
+
+server/src/online_data
