@@ -7,3 +7,5 @@
 *.js
 
 .env
+
+/server/src/offline_data

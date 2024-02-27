@@ -1,5 +1,5 @@
 export const showHelp = () => {
-  console.log("\n", "Available commands:");
+  console.log(" \n Available commands:");
   console.log("'c' - Create a new manufacturer");
   console.log("'l' - List all manufacturers (ID, Name, Number of models)");
   console.log("'d' - Delete a manufacturer by ID");

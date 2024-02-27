@@ -1,0 +1,56 @@
+[
+  {
+    "_id": "65d33e742ba1296284338675",
+    "name": "Toyota",
+    "__v": 0,
+    "modelCount": 1
+  },
+  {
+    "_id": "65d33e902ba1296284338677",
+    "name": "AUDI",
+    "__v": 0,
+    "modelCount": 7
+  },
+  {
+    "_id": "65d33e962ba1296284338679",
+    "name": "BMW",
+    "__v": 0,
+    "modelCount": 0
+  },
+  {
+    "_id": "65d33eab2ba129628433867b",
+    "name": "Mercedes",
+    "__v": 0,
+    "modelCount": 0
+  },
+  {
+    "_id": "65d33eee2ba129628433867d",
+    "name": "VW",
+    "__v": 0,
+    "modelCount": 15
+  },
+  {
+    "_id": "65d45c5a9072815b18549138",
+    "name": "Suzuki",
+    "__v": 0,
+    "modelCount": 6
+  },
+  {
+    "_id": "65dc3fbbf38cdf1b049ee9b0",
+    "name": "Volvo",
+    "__v": 0,
+    "modelCount": 5
+  },
+  {
+    "_id": "65dde14c885ccf5e1ce56da6",
+    "name": "Tata Suzuki",
+    "__v": 0,
+    "modelCount": 0
+  },
+  {
+    "_id": "65dde14c885ccf5e1ce56daa",
+    "name": "Tata Motors",
+    "__v": 0,
+    "modelCount": 1
+  }
+]
